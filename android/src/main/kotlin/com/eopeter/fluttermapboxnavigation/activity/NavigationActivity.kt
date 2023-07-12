@@ -117,7 +117,7 @@ class NavigationActivity : AppCompatActivity() {
         addWayPointsBroadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
                 //get waypoints
-                val stops = intent.getSerializableExtra("waypoints") as? MutableList<*>
+                val stops = intent.getSerializableExtra("waypoints") as? MutableList<Waypoint>
                 val nextIndex = 1
                 if (stops != null) {
                     //append to points
@@ -151,7 +151,7 @@ class NavigationActivity : AppCompatActivity() {
             return
         }
 
-        val p = intent.getSerializableExtra("waypoints") as? MutableList<*>
+        val p = intent.getSerializableExtra("waypoints") as? MutableList<Waypoint>
         if (p != null) points = p
         points.map { waypointSet.add(it) }
         requestRoutes(waypointSet)

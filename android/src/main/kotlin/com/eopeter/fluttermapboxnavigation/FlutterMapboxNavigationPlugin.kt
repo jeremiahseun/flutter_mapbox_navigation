@@ -5,17 +5,11 @@ import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
-import android.view.View
-import androidx.cardview.widget.CardView
 import com.eopeter.fluttermapboxnavigation.activity.NavigationLauncher
 import com.eopeter.fluttermapboxnavigation.factory.EmbeddedNavigationViewFactory
 import com.eopeter.fluttermapboxnavigation.models.Waypoint
 import com.mapbox.api.directions.v5.DirectionsCriteria
 import com.mapbox.api.directions.v5.models.DirectionsRoute
-import com.mapbox.navigation.ui.maneuver.view.MapboxManeuverView
-import com.mapbox.navigation.ui.maps.camera.view.MapboxRecenterButton
-import com.mapbox.navigation.ui.maps.camera.view.MapboxRouteOverviewButton
-import com.mapbox.navigation.ui.voice.view.MapboxSoundButton
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
@@ -35,23 +29,8 @@ class FlutterMapboxNavigationPlugin : FlutterPlugin, MethodCallHandler,
     private lateinit var progressEventChannel: EventChannel
     private var currentActivity: Activity? = null
     private lateinit var currentContext: Context
-    // Declare variables for the UI components
-    private lateinit var tripProgressCard: CardView
-    private lateinit var maneuverView: MapboxManeuverView
-    private lateinit var soundButton: MapboxSoundButton
-    private lateinit var routeOverview: MapboxRouteOverviewButton
-    private lateinit var recenter: MapboxRecenterButton
-
-
 
     override fun onAttachedToEngine(binding: FlutterPlugin.FlutterPluginBinding) {
-        // Find and assign the UI components using their IDs
-        tripProgressCard = findViewById(R.id.tripProgressCard)
-        maneuverView = findViewById(R.id.maneuverView)
-        soundButton = findViewById(R.id.soundButton)
-        routeOverview = findViewById(R.id.routeOverview)
-        recenter = findViewById(R.id.recenter)
-
         val messenger = binding.binaryMessenger
         channel = MethodChannel(messenger, "flutter_mapbox_navigation")
         channel.setMethodCallHandler(this)
@@ -124,30 +103,9 @@ class FlutterMapboxNavigationPlugin : FlutterPlugin, MethodCallHandler,
             "enableOfflineRouting" -> {
                 downloadRegionForOfflineRouting(call, result)
             }
-            "setComponentVisibility" -> {
-                val arguments = call.arguments as? Map<*, *>
-                if (arguments != null) {
-                    val maneuverViewVisible = arguments["maneuverViewVisible"] as? Boolean
-                    val soundButtonVisible = arguments["soundButtonVisible"] as? Boolean
-                    val routeOverviewVisible = arguments["routeOverviewVisible"] as? Boolean
-                    val recenterVisible = arguments["recenterVisible"] as? Boolean
-
-                    // Set the visibility of the components based on the provided values
-                    tripProgressCard.visibility = if (maneuverViewVisible == true) View.VISIBLE else View.GONE
-                    maneuverView.visibility = if (maneuverViewVisible == true) View.VISIBLE else View.GONE
-                    soundButton.visibility = if (soundButtonVisible == true) View.VISIBLE else View.GONE
-                    routeOverview.visibility = if (routeOverviewVisible == true) View.VISIBLE else View.GONE
-                    recenter.visibility = if (recenterVisible == true) View.VISIBLE else View.GONE
-
-                    result.success(true)
-                } else {
-                    result.success(false)
-                }
-            }
             else -> result.notImplemented()
         }
     }
-
 
     private fun downloadRegionForOfflineRouting(
         call: MethodCall,
@@ -159,7 +117,7 @@ class FlutterMapboxNavigationPlugin : FlutterPlugin, MethodCallHandler,
     private fun checkPermissionAndBeginNavigation(
         call: MethodCall
     ) {
-        val arguments = call.arguments as? Map<*, *>
+        val arguments = call.arguments as? Map<String, Any>
 
         val navMode = arguments?.get("mode") as? String
         if (navMode != null) {
@@ -210,7 +168,7 @@ class FlutterMapboxNavigationPlugin : FlutterPlugin, MethodCallHandler,
             return
         }
 
-        val points = arguments?.get("wayPoints") as HashMap<*, *>
+        val points = arguments?.get("wayPoints") as HashMap<Int, Any>
         for (item in points) {
             val point = item.value as HashMap<*, *>
             val name = point["Name"] as String
@@ -247,8 +205,8 @@ class FlutterMapboxNavigationPlugin : FlutterPlugin, MethodCallHandler,
         call: MethodCall,
         result: Result
     ) {
-        val arguments = call.arguments as? Map<*, *>
-        val points = arguments?.get("wayPoints") as HashMap<*, *>
+        val arguments = call.arguments as? Map<String, Any>
+        val points = arguments?.get("wayPoints") as HashMap<Int, Any>
 
         for (item in points) {
             val point = item.value as HashMap<*, *>
