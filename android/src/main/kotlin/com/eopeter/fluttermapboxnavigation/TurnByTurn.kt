@@ -357,7 +357,7 @@ open class TurnByTurn(
     var enableRefresh = false
     private var voiceInstructionsEnabled = true
     private var bannerInstructionsEnabled = true
-    private var longPressDestinationEnabled = true
+    private var longPressDestinationEnabled = false
     private var animateBuildRoute = true
     private var isOptimized = false
 
