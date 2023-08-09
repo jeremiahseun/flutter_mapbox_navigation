@@ -158,9 +158,6 @@ class FlutterMapboxNavigationPlugin : FlutterPlugin, MethodCallHandler,
             }
         }
 
-        mapStyleUrlDay = arguments?.get("mapStyleUrlDay") as? String
-        mapStyleUrlNight = arguments?.get("mapStyleUrlNight") as? String
-
         val longPress = arguments?.get("longPressDestinationEnabled") as? Boolean
         if (longPress != null) {
             longPressDestinationEnabled = longPress
