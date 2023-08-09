@@ -248,8 +248,8 @@ open class TurnByTurn(
             }
         }
 
-        this.mapStyleUrlDay = arguments["mapStyleUrlDay"] as? String
-        this.mapStyleUrlNight = arguments["mapStyleUrlNight"] as? String
+        this.mapStyleUrlDay = "mapbox://styles/jeremiahseun/cljydksei006e01pf6cqmc8qh"
+        this.mapStyleUrlNight = "mapbox://styles/jeremiahseun/cljydksei006e01pf6cqmc8qh"
 
         //Set the style Uri
         if (this.mapStyleUrlDay == null) this.mapStyleUrlDay = Style.MAPBOX_STREETS
@@ -351,8 +351,8 @@ open class TurnByTurn(
     // val wayPoints: MutableList<Point> = mutableListOf()
     private var navigationMode = DirectionsCriteria.PROFILE_DRIVING_TRAFFIC
     var simulateRoute = false
-    private var mapStyleUrlDay: String? = null
-    private var mapStyleUrlNight: String? = null
+    private var mapStyleUrlDay: String = "mapbox://styles/jeremiahseun/cljydksei006e01pf6cqmc8qh"
+    private var mapStyleUrlNight: String = "mapbox://styles/jeremiahseun/cljydksei006e01pf6cqmc8qh"
     private var navigationLanguage = "en"
     private var navigationVoiceUnits = DirectionsCriteria.IMPERIAL
     private var zoom = 15.0

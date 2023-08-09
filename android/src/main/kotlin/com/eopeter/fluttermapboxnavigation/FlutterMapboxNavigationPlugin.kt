@@ -60,8 +60,8 @@ class FlutterMapboxNavigationPlugin : FlutterPlugin, MethodCallHandler,
         var navigationMode = DirectionsCriteria.PROFILE_DRIVING_TRAFFIC
         var simulateRoute = false
         var enableFreeDriveMode = false
-        var mapStyleUrlDay: String? = null
-        var mapStyleUrlNight: String? = null
+        var mapStyleUrlDay: String = "mapbox://styles/jeremiahseun/cljydksei006e01pf6cqmc8qh"
+        var mapStyleUrlNight: String = "mapbox://styles/jeremiahseun/cljydksei006e01pf6cqmc8qh"
         var navigationLanguage = "en"
         var navigationVoiceUnits = DirectionsCriteria.IMPERIAL
         var zoom = 15.0
