@@ -92,7 +92,7 @@ class NavigationActivity : AppCompatActivity() {
             .setup(navigationOptions)
             .attach(this)
 
-        if (FlutterMapboxNavigationPlugin.allowsClickToSetDestination) {
+        if (FlutterMapboxNavigationPlugin.longPressDestinationEnabled) {
             binding.navigationView.registerMapObserver(onMapLongClick)
             binding.navigationView.customizeViewOptions {
                 enableMapLongClickIntercept = false
@@ -140,10 +140,19 @@ class NavigationActivity : AppCompatActivity() {
         )
 
         // TODO set the style Uri
-        var styleUrl = FlutterMapboxNavigationPlugin.mapStyleUrlDay
-        if (styleUrl == null) styleUrl = Style.MAPBOX_STREETS
+        var styleUrlDay = FlutterMapboxNavigationPlugin.mapStyleUrlDay
+        var styleUrlNight = FlutterMapboxNavigationPlugin.mapStyleUrlNight
+
+        if (styleUrlDay == null) styleUrlDay = Style.MAPBOX_STREETS
+        if (styleUrlNight == null) styleUrlNight = Style.DARK
         // set map style
         binding.navigationView.customizeViewStyles {}
+
+        // set map style
+        binding.navigationView.customizeViewOptions {
+            mapStyleUriDay = styleUrlDay
+            mapStyleUriNight = styleUrlNight
+        }
 
         if (FlutterMapboxNavigationPlugin.enableFreeDriveMode) {
             binding.navigationView.api.routeReplayEnabled(FlutterMapboxNavigationPlugin.simulateRoute)
@@ -160,7 +169,7 @@ class NavigationActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (FlutterMapboxNavigationPlugin.allowsClickToSetDestination) {
+        if (FlutterMapboxNavigationPlugin.longPressDestinationEnabled) {
             binding.navigationView.unregisterMapObserver(onMapLongClick)
         }
         binding.navigationView.removeListener(navigationStateListener)
